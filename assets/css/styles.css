@@ -1,0 +1,168 @@
+:root {
+  /* Fonts */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+
+  /* Light theme base */
+  --bg: #fcfdfe;
+  --surface: #ffffff;
+  --text: #0b1220;
+  --muted: #475569; /* slate-ish */
+  --border: rgba(15, 23, 42, 0.12);
+
+  /* Two-color vibrant accent theme */
+  --accent-1: #06b6d4; /* cyan */
+  --accent-2: #7c3aed; /* violet */
+
+  /* Focus ring */
+  --focus: rgba(6, 182, 212, 0.28);
+}
+
+html, body { height: 100%; }
+
+html {
+  background:
+    radial-gradient(1200px 700px at 15% 5%, rgba(124, 58, 237, 0.10), transparent 55%),
+    radial-gradient(1000px 600px at 85% 10%, rgba(6, 182, 212, 0.10), transparent 55%),
+    var(--bg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: transparent;
+}
+/* Utility-ish surfaces */
+.bg-surface { background-color: var(--surface) !important; }
+.border-soft { border-color: var(--border) !important; }
+
+/* Links */
+a {
+  color: var(--accent-2);
+  text-decoration-color: rgba(124, 58, 237, 0.35);
+}
+a:hover {
+  color: #5b21b6;
+  text-decoration-color: rgba(124, 58, 237, 0.55);
+}
+
+/* Headings */
+h1, h2, h3, h4 { letter-spacing: -0.01em; }
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--surface);
+  color: var(--text);
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  z-index: 9999;
+}
+.skip-link:focus {
+  left: 0.75rem;
+  top: 0.75rem;
+  outline: 3px solid var(--focus);
+}
+
+/* Cards */
+.card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+.card-header {
+  background: rgba(255, 255, 255, 0.98);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Buttons */
+.btn-accent {
+  --bs-btn-color: #ffffff;
+  --bs-btn-bg: var(--accent-2);
+  --bs-btn-border-color: transparent;
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-hover-bg: #5b21b6;
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-focus-shadow-rgb: 124, 58, 237;
+  border-radius: 0.9rem;
+  font-weight: 600;
+}
+
+/* Accent badge */
+.badge-accent {
+  background: linear-gradient(90deg, rgba(6, 182, 212, 0.14), rgba(124, 58, 237, 0.14));
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+/* HR */
+hr {
+  border-color: var(--border);
+  opacity: 1;
+}
+
+/* Accordion */
+.accordion-item {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
+}
+.accordion-button {
+  background: rgba(255, 255, 255, 0.98);
+  color: var(--text);
+}
+.accordion-button:focus {
+  box-shadow: 0 0 0 0.25rem var(--focus);
+}
+.accordion-button:not(.collapsed) {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.98);
+}
+.accordion-body { color: var(--text); }
+
+/* Tables */
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--text);
+  --bs-table-border-color: var(--border);
+}
+.table thead th { color: var(--muted); }
+
+/* Muted text */
+.text-muted { color: var(--muted) !important; }
+
+/* Navbar */
+.navbar {
+  backdrop-filter: blur(8px);
+}
+.navbar .navbar-brand {
+  color: var(--text);
+}
+.navbar .nav-link {
+  color: rgba(11, 18, 32, 0.72);
+  border-radius: 0.75rem;
+  padding: 0.45rem 0.75rem;
+}
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+  color: var(--text);
+  background: rgba(6, 182, 212, 0.10);
+}
+
+/* Footer: keep it clean */
+footer a { color: var(--accent-2); }
+
+/* Accessible focus */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+

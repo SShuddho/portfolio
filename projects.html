@@ -1,0 +1,49 @@
+---
+layout: default
+title: Projects
+description: "Technical and computational projects."
+---
+
+<h1 class="h3 mb-3">Projects</h1>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h2 class="h5">DecayMC</h2>
+        <p class="text-muted">A simple Monte Carlo framework for relativistic particle decays and scattering, designed to emphasize physical transparency, explicit assumptions, and validation against analytic benchmarks.</p>
+        <ul class="mb-4">
+          <li> Implemented Lorentz-covariant four-vector kinematics, two-body and three-body decays, Michel-weighted muon decay, and Rutherford scattering.</li>
+          <li>Validated against analytic benchmarks.</li>
+        </ul>
+
+        <div class="d-flex flex-wrap gap-2">
+          <a class="btn btn-accent btn-sm" href="https://github.com/SShuddho/decaymc" aria-disabled="true">GitHub</a>
+          <a class="btn btn-accent btn-sm" href="{{ '/assets/pdfs/decayMC_report.pdf' | relative_url }}" aria-disabled="true">Report (PDF)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h2 class="h5">LINACLab</h2>
+        <p class="text-muted">LINACLab is a compact research-oriented framework for relativistic charged-particle tracking and linear beam optics.
+It is designed to emphasize physical transparency, numerical interpretability, and consistency between particle tracking and matrix optics, rather than production-scale accelerator simulation.</p>
+        <ul class="mb-4">
+          <li>Developed a framework for relativistic charged-particle tracking in EM fields, implementing integrators (Euler, RK4) and a relativistic Boris pusher validated against analytical tests.</li>
+          <li>Implemented beam-level optics including second-moment transport, RMS emittance and Twiss
+reconstruction, and Hamiltonian-derived linear maps for drifts and quadrupoles.</li>
+        </ul>
+
+        <div class="d-flex flex-wrap gap-2">
+          <a class="btn btn-accent btn-sm" href="https://github.com/SShuddho/linaclab" aria-disabled="true">GitHub</a>
+          <a class="btn btn-accent btn-sm" href="{{ '/assets/pdfs/LINACLab_report.pdf' | relative_url }}" aria-disabled="true">Report (PDF)</a>
+          <a class="btn btn-accent btn-sm" href="https://sshuddho.github.io/linaclab/" aria-disabled="true">Website</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
