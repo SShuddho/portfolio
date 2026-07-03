@@ -1,25 +1,37 @@
 <header class="site-header">
-  <nav class="navbar navbar-expand-lg navbar-light bg-surface border-bottom border-soft">
-    <div class="container-fluid px-3 px-lg-5 py-0">
+  <nav class="navbar navbar-expand-lg border-bottom border-soft">
+    <div class="container-fluid px-3 px-lg-5 py-2">
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">
+		<span class="icon-sun" aria-hidden="true">&#9728;</span>
+		<span class="icon-moon" aria-hidden="true">&#9789;</span>
+	  </button>
+	  
+	  <a class="navbar-brand d-lg-none" href="{{ '/' | relative_url }}">Safius Sakib Shuddho</a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav"
-        aria-controls="topNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+	  <div class="d-flex align-items-center gap-2 order-lg-2">
+
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav" aria-controls="topNav" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+	    </button>
+	  </div>
 
       <div class="collapse navbar-collapse" id="topNav">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-1">
-          <li class="nav-item"><a class="nav-link" href="{{ '/' | relative_url }}">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ '/education.html' | relative_url }}">Education</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ '/research.html' | relative_url }}">Research</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ '/projects.html' | relative_url }}">Projects</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ '/certifications.html' | relative_url }}">Certifications</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ '/language.html' | relative_url }}">Language</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ '/self-studies.html' | relative_url }}">Self Studies</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ '/leadership.html' | relative_url }}">Leadership</a></li>
+          {% assign nav_items = "/|About,/education.html|Education,/research.html|Research,/projects.html|Projects,/certifications.html|Certifications,/language.html|Language,/self-studies.html|Self Studies,/leadership.html|Leadership" | split: "," %}
+          {% for item in nav_items %}
+            {% assign parts = item | split: "|" %}
+            {% assign item_url = parts[0] %}
+            {% assign item_label = parts[1] %}
+            {% assign current_path = page.url %}
+            {% if current_path == "" or current_path == "/index.html" %}{% assign current_path = "/" %}{% endif %}
+            <li class="nav-item">
+              <a class="nav-link{% if current_path == item_url %} active{% endif %}"
+                 href="{{ item_url | relative_url }}"
+                 {% if current_path == item_url %}aria-current="page"{% endif %}>{{ item_label }}</a>
+            </li>
+          {% endfor %}
         </ul>
       </div>
     </div>
   </nav>
 </header>
-

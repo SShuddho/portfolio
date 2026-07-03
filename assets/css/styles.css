@@ -1,62 +1,198 @@
+/* ==========================================================================
+   Design tokens
+   ========================================================================== */
 :root {
   /* Fonts */
+  --font-serif: "Crimson Pro", Georgia, "Times New Roman", serif;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  --font-mono: "SF Mono", ui-monospace, Menlo, Consolas, "Liberation Mono", monospace;
 
-  /* Light theme base */
-  --bg: #fcfdfe;
+  /* Type scale */
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --h3: clamp(1.15rem, 1.05rem + 0.5vw, 1.375rem);
+  --h2: clamp(1.4rem, 1.2rem + 1vw, 1.75rem);
+  --h1: clamp(2rem, 1.6rem + 2vw, 3rem);
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  --radius: 14px;
+  --radius-sm: 10px;
+
+  /* Light theme (default) */
+  --bg: #fcfbf9;
   --surface: #ffffff;
-  --text: #0b1220;
-  --muted: #475569; /* slate-ish */
-  --border: rgba(15, 23, 42, 0.12);
+  --surface-2: #f5f4f1;
+  --text: #111111;
+  --text-secondary: #44443f;
+  --text-muted: #7a7972;
+  --border: rgba(17, 17, 17, 0.10);
+  --border-strong: rgba(17, 17, 17, 0.18);
 
-  /* Two-color vibrant accent theme */
-  --accent-1: #06b6d4; /* cyan */
-  --accent-2: #7c3aed; /* violet */
+  --accent: #1d4ed8;
+  --accent-hover: #1739a6;
+  --accent-bg: rgba(29, 78, 216, 0.07);
+  --focus: rgba(29, 78, 216, 0.35);
 
-  /* Focus ring */
-  --focus: rgba(6, 182, 212, 0.28);
+  color-scheme: light;
 }
 
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #0d0d0c;
+    --surface: #161615;
+    --surface-2: #1e1e1c;
+    --text: #f2f1ed;
+    --text-secondary: #b8b6ae;
+    --text-muted: #85837a;
+    --border: rgba(255, 255, 255, 0.10);
+    --border-strong: rgba(255, 255, 255, 0.18);
+
+    --accent: #5b8def;
+    --accent-hover: #7ba3f2;
+    --accent-bg: rgba(91, 141, 239, 0.12);
+    --focus: rgba(91, 141, 239, 0.40);
+
+    color-scheme: dark;
+  }
+}
+
+/* Manual override — takes precedence over system preference when set by the toggle */
+:root[data-theme="light"] {
+  --bg: #fcfbf9;
+  --surface: #ffffff;
+  --surface-2: #f5f4f1;
+  --text: #111111;
+  --text-secondary: #44443f;
+  --text-muted: #7a7972;
+  --border: rgba(17, 17, 17, 0.10);
+  --border-strong: rgba(17, 17, 17, 0.18);
+  --accent: #1d4ed8;
+  --accent-hover: #1739a6;
+  --accent-bg: rgba(29, 78, 216, 0.07);
+  --focus: rgba(29, 78, 216, 0.35);
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --bg: #0d0d0c;
+  --surface: #161615;
+  --surface-2: #1e1e1c;
+  --text: #f2f1ed;
+  --text-secondary: #b8b6ae;
+  --text-muted: #85837a;
+  --border: rgba(255, 255, 255, 0.10);
+  --border-strong: rgba(255, 255, 255, 0.18);
+  --accent: #5b8def;
+  --accent-hover: #7ba3f2;
+  --accent-bg: rgba(91, 141, 239, 0.12);
+  --focus: rgba(91, 141, 239, 0.40);
+  color-scheme: dark;
+}
+
+/* Toggle button */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+:root[data-theme="dark"] .theme-toggle .icon-sun,
+:root:not([data-theme="dark"]) .theme-toggle .icon-moon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .theme-toggle .icon-sun { display: none; }
+  :root:not([data-theme]) .theme-toggle .icon-moon { display: inline; }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
 html, body { height: 100%; }
 
-html {
-  background:
-    radial-gradient(1200px 700px at 15% 5%, rgba(124, 58, 237, 0.10), transparent 55%),
-    radial-gradient(1000px 600px at 85% 10%, rgba(6, 182, 212, 0.10), transparent 55%),
-    var(--bg);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
+html { background: var(--bg); }
 
 body {
   font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.65;
   color: var(--text);
   background: transparent;
+  -webkit-font-smoothing: antialiased;
 }
-/* Utility-ish surfaces */
-.bg-surface { background-color: var(--surface) !important; }
-.border-soft { border-color: var(--border) !important; }
+
+::selection {
+  background: var(--accent-bg);
+  color: var(--text);
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+h1 { font-size: var(--h1); }
+h2 { font-size: var(--h2); }
+h3 { font-size: var(--h3); }
+h4, h5, h6 { font-size: var(--text-lg); }
+
+/* Name / masthead title */
+.name-title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  font-size: 3.2rem;
+}
+
+/* Eyebrow-style small caps labels */
+.eyebrow {
+  font-family: var(--font-serif);
+  font-size: var(--text-base);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+p { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted) !important; }
+.text-secondary { color: var(--text-secondary) !important; }
 
 /* Links */
 a {
-  color: var(--accent-2);
-  text-decoration-color: rgba(124, 58, 237, 0.35);
+  color: var(--accent);
+  text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  text-underline-offset: 2px;
 }
-a:hover {
-  color: #5b21b6;
-  text-decoration-color: rgba(124, 58, 237, 0.55);
+a:hover,
+a:focus {
+  color: var(--accent-hover);
+  text-decoration-color: currentColor;
 }
-
-/* Name Title */
-.name-title {
-    font-family: "Crimson Pro", serif;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    line-height: 1.1;
-}
-
-/* Headings */
-h1, h2, h3, h4 { letter-spacing: -0.01em; }
 
 /* Skip link */
 .skip-link {
@@ -65,112 +201,402 @@ h1, h2, h3, h4 { letter-spacing: -0.01em; }
   top: 0;
   background: var(--surface);
   color: var(--text);
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
   z-index: 9999;
 }
 .skip-link:focus {
-  left: 0.75rem;
-  top: 0.75rem;
-  outline: 3px solid var(--focus);
+  left: var(--space-3);
+  top: var(--space-3);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
-/* Cards */
-.card {
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
-}
-.card-header {
-  background: rgba(255, 255, 255, 0.98);
-  border-bottom: 1px solid var(--border);
+/* Accessible focus (accent ring is the one place blue does structural work) */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
-/* Buttons */
-.btn-accent {
-  --bs-btn-color: #ffffff;
-  --bs-btn-bg: var(--accent-2);
-  --bs-btn-border-color: transparent;
-  --bs-btn-hover-color: #ffffff;
-  --bs-btn-hover-bg: #5b21b6;
-  --bs-btn-hover-border-color: transparent;
-  --bs-btn-focus-shadow-rgb: 124, 58, 237;
-  border-radius: 0.9rem;
-  font-weight: 600;
-}
+/* ==========================================================================
+   Surfaces / utilities
+   ========================================================================== */
+.bg-surface { background-color: var(--surface) !important; }
+.bg-surface-2 { background-color: var(--surface-2) !important; }
+.border-soft { border-color: var(--border) !important; }
 
-/* Accent badge */
-.badge-accent {
-  background: linear-gradient(90deg, rgba(6, 182, 212, 0.14), rgba(124, 58, 237, 0.14));
-  border: 1px solid var(--border);
-  color: var(--text);
-}
-
-/* HR */
 hr {
   border-color: var(--border);
   opacity: 1;
 }
 
-/* Accordion */
-.accordion-item {
-  background: rgba(255, 255, 255, 0.92);
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+.card {
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 1rem;
-  overflow: hidden;
-  margin-bottom: 0.75rem;
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
+  border-radius: var(--radius);
+  box-shadow: none;
+  padding: 0;
 }
-.accordion-button {
-  background: rgba(255, 255, 255, 0.98);
-  color: var(--text);
+.card-body { padding: var(--space-5); }
+.card-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
-.accordion-button:focus {
-  box-shadow: 0 0 0 0.25rem var(--focus);
+a.card:hover,
+.card.card-interactive:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
-.accordion-button:not(.collapsed) {
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.98);
-}
-.accordion-body { color: var(--text); }
 
-/* Tables */
+/* Card-internal section heading convention (was h2/h5 hacks) */
+.card h3 {
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-3);
+}
+.card .card-eyebrow {
+  margin-bottom: var(--space-2);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 1.1rem;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+/* Primary accent button — reserve for the single main CTA per view */
+.btn-accent {
+  --bs-btn-color: #ffffff;
+  --bs-btn-bg: var(--accent);
+  --bs-btn-border-color: transparent;
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-hover-bg: var(--accent-hover);
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-focus-shadow-rgb: 29, 78, 216;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid transparent;
+}
+.btn-accent:hover, .btn-accent:focus {
+  background: var(--accent-hover);
+  color: #fff;
+}
+
+/* Secondary / quiet button — default for non-primary actions (e.g. certificate PDFs) */
+.btn-outline-secondary,
+.btn-secondary {
+  --bs-btn-color: var(--text);
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: var(--border-strong);
+  --bs-btn-hover-color: var(--text);
+  --bs-btn-hover-bg: var(--surface-2);
+  --bs-btn-hover-border-color: var(--border-strong);
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border-strong);
+}
+.btn-outline-secondary:hover,
+.btn-secondary:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+/* ==========================================================================
+   Tags / pills (skills, keywords)
+   ========================================================================== */
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 8px;
+  color: var(--text-secondary);
+  margin: 0 var(--space-2) var(--space-2) 0;
+}
+
+/* Accent badge (sparing use only) */
+.badge-accent {
+  background: var(--accent-bg);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Status pill (publication / presentation status)
+   ========================================================================== */
+.status-pill {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text-secondary);
+}
+.status-pill.is-published {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   Timeline (Education / Leadership)
+   ========================================================================== */
+.timeline {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 var(--space-5);
+  border-left: 2px solid var(--border);
+}
+.timeline-item {
+  position: relative;
+  padding-bottom: var(--space-6);
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--space-5) - 5px);
+  top: 0.35rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  border: 2px solid var(--bg);
+}
+.timeline-item.is-current::before {
+  background: var(--accent);
+}
+.timeline-date {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+.timeline-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin: var(--space-1) 0;
+}
+
+/* ==========================================================================
+   Publication / research item list (Research / Projects)
+   ========================================================================== */
+.pub-list { margin: 0; padding: 0; list-style: none; }
+.pub-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--border);
+}
+.pub-item:last-child { border-bottom: none; padding-bottom: 0; }
+.pub-item:first-child { padding-top: 0; }
+.pub-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: var(--text-base);
+  color: var(--text);
+  margin: 0 0 2px;
+}
+.pub-meta {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin: 0;
+}
+.pub-year {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Certificate / award component
+   ========================================================================== */
+.certificate {
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--border);
+}
+.certificate:last-child { border-bottom: none; padding-bottom: 0; }
+.certificate:first-child { padding-top: 0; }
+.certificate-name {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin: 0 0 2px;
+}
+.certificate-issuer {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-3);
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
 .table {
   --bs-table-bg: transparent;
   --bs-table-color: var(--text);
   --bs-table-border-color: var(--border);
+  font-size: var(--text-sm);
 }
-.table thead th { color: var(--muted); }
+.table thead th {
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-strong);
+}
+.table td, .table th {
+  border-bottom: 1px solid var(--border);
+  padding: var(--space-3) var(--space-2);
+}
 
-/* Muted text */
-.text-muted { color: var(--muted) !important; }
-
-/* Navbar */
+/* ==========================================================================
+   Navbar
+   ========================================================================== */
 .navbar {
-  backdrop-filter: blur(8px);
+  background: var(--surface);
 }
 .navbar .navbar-brand {
+  font-family: var(--font-serif);
+  font-weight: 600;
   color: var(--text);
 }
 .navbar .nav-link {
-  color: rgba(11, 18, 32, 0.72);
-  border-radius: 0.75rem;
-  padding: 0.45rem 0.75rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: 0;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 2px solid transparent;
+  transition: color 120ms ease, border-color 120ms ease;
 }
 .navbar .nav-link:hover,
 .navbar .nav-link:focus {
   color: var(--text);
-  background: rgba(6, 182, 212, 0.10);
+  background: transparent;
+  border-bottom-color: var(--border-strong);
+}
+.navbar .nav-link.active,
+.navbar .nav-link[aria-current="page"] {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.navbar-toggler {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.6rem;
+}
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 2px var(--focus);
+}
+.navbar-toggler-icon {
+  background-image: none;
+  position: relative;
+  width: 1.2em;
+  height: 1.2em;
+  display: inline-block;
+}
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--text);
+}
+.navbar-toggler-icon::before { top: 30%; }
+.navbar-toggler-icon::after { bottom: 30%; }
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+footer {
+  background: var(--surface);
+}
+footer a { color: var(--accent); }
+footer h2 {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
-/* Footer: keep it clean */
-footer a { color: var(--accent-2); }
+/* ==========================================================================
+   Accordion (kept for Certifications/Language pages if used)
+   ========================================================================== */
+.accordion-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: var(--space-3);
+  box-shadow: none;
+}
+.accordion-button {
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+.accordion-button:focus {
+  box-shadow: 0 0 0 2px var(--focus);
+}
+.accordion-button:not(.collapsed) {
+  color: var(--text);
+  background: var(--surface-2);
+}
+.accordion-body { color: var(--text-secondary); }
 
-/* Accessible focus */
-:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
+/* ==========================================================================
+   Section rhythm
+   ========================================================================== */
+main {
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-8);
+}
+section + section,
+.row + .row {
+  margin-top: var(--space-7);
 }
 
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 767.98px) {
+  main { padding-top: var(--space-5); padding-bottom: var(--space-7); }
+  .card-body { padding: var(--space-4); }
+}
